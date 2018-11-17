@@ -38,6 +38,59 @@ def base_decode():
     db.session.commit()
     return str((result, base))
 
+@app.route('encode/base', methods=['POST'])
+def base_encode():
+    base = int(request.form.get('base'))
+    plain = request.form.get('plain')
+    result = crypto.base_encode(base, plain)
+
+    newlog = Log(
+        type='base' + str(base),
+        timestamp=datetime.now().strftime('%Y-%m-%d'),
+        json={ 'query': plain, 'result': result }
+    )
+    db.session.add(newlog)
+    db.session.commit()
+
+    return result
+
+@app.route('encode/base', methods=['POST'])
+def base_encode():
+    base = int(request.form.get('base'))
+    plain = request.form.get('plain')
+    result = crypto.base_encode(base, plain)
+
+    newlog = Log(
+        type='base' + str(base),
+        timestamp=datetime.now().strftime('%Y-%m-%d'),
+        json={ 'query': plain, 'result': result }
+    )
+    db.session.add(newlog)
+    db.session.commit()
+
+    return result
+
+@app.route('encrypt/hash', methods=['POST'])
+def hash_encrypt():
+    hashfunc = request.form.get('hash')
+    plain = request.form.get('plain')
+    if hashfunc not in []:
+        return 'No'
+    else: 
+        result = ''
+    newlog = Log(
+        type=hashfunc,
+        timestamp=datetime.now().strftime('%Y-%m-%d'),
+        json={ 'query': plain, 'result': result }
+    )
+    db.session.add(newlog)
+    db.session.commit()
+    
+    newhash = Hash(plain=plain, hash=result)
+    db.session.add(newhash)
+    db.session.commit()
+    return result
+
 @app.route('/<cate>/<menu>/')
 def show_form(cate=None, menu=None):
     return render_template('form.html', title=cate+'-'+menu)
