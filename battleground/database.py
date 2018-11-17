@@ -10,4 +10,14 @@ class Log(db.Model):
     def __repr__(self):
         return '<Log %r>' % self.timestamp        
 
+class Hash(db.Model):
+    __tablename__ = 'Hash'
+    id = db.Column(db.Integer, primary_key=True)
+    func = db.Column(db.String, nullable=False) # hash func
+    plain = db.Column(db.String, nullable=False) # plaintext
+    hash = db.Column(db.String, nullable=False) # hash
+
+    def __repr__(self):
+        return '<Hash %r>' % self.hash
+
 db.create_all()

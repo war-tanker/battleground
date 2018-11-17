@@ -20,9 +20,25 @@ def home():
                 timestamp=label, 
                 type=topic
             ).all()))
-    return render_template('main.html', base_data=base_data)
+    return render_template('index.html', base_data=base_data)
 
-@app.route('/decode/base', methods=['POST'])  
+@app.route('/api/encode/base', methods=['POST'])
+def base_encode():
+    base = int(request.form.get('base'))
+    plain = request.form.get('plain')
+    result = crypto.base_encode(base, plain)
+
+    newlog = Log(
+        type='base' + str(base),
+        timestamp=datetime.now().strftime('%Y-%m-%d'),
+        json={ 'query': plain, 'result': result }
+    )
+    db.session.add(newlog)
+    db.session.commit()
+
+    return result
+
+@app.route('/api/decode/base', methods=['POST'])  
 def base_decode():
     try:
         query = request.form.get('enc')
@@ -38,7 +54,42 @@ def base_decode():
     db.session.commit()
     return str((result, base))
 
-@app.route('/<cate>/<menu>')
+@app.route('/api/encrypt/hash', methods=['POST'])
+def hash_encrypt(): # just backend
+    hashfunc = request.form.get('hash')
+    plain = request.form.get('plain')
+    if hashfunc == 'md5':
+        result = crypto.md5encode(plain)
+    elif hashfunc in ['sha1', 'sha256', 'sha384', 'sha512']:
+        rresult = crypto.sha_encode(hashfunc.replace('sha', ''), plain)
+    else:
+        return 'Unknown hash function'            
+    
+    newlog = Log(
+        type=hashfunc,
+        timestamp=datetime.now().strftime('%Y-%m-%d'),
+        json={ 'query': plain, 'result': result }
+    )
+    db.session.add(newlog)
+    db.session.commit()
+    
+    newhash = Hash(plain=plain, hash=result)
+    db.session.add(newhash)
+    db.session.commit()
+    return result
+
+@app.route('/api/decrypt/hash', methods=['POST'])
+def hash_decrypt(): # just backend
+    q_func = request.form.get('hash')
+    if q_func not in []:
+        return 'Unknown hash function'
+    q_hash = request.form.get('plain')
+    # query plaintext with func, hash
+    result = Hash.query.filter_by(func=q_func, hash=q_hash).first()
+    if not result:
+        return 'Not in DB'
+    return result.plain
+
+@app.route('/<cate>/<menu>/')
 def show_form(cate=None, menu=None):
     return render_template('form.html', title=cate+'-'+menu)
-    
