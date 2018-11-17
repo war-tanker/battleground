@@ -80,10 +80,10 @@ def hash_encrypt(): # just backend
 
 @app.route('/api/decrypt/hash', methods=['POST'])
 def hash_decrypt(): # just backend
-    q_func = request.form.get('hash')
+    q_func = request.form.get('func')
     if q_func not in []:
         return 'Unknown hash function'
-    q_hash = request.form.get('plain')
+    q_hash = request.form.get('hash')
     # query plaintext with func, hash
     result = Hash.query.filter_by(func=q_func, hash=q_hash).first()
     if not result:
