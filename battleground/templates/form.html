@@ -13,15 +13,15 @@
         <div class="jumbotron mt-3">
             <h1>{{ title }}</h1>     
             <div style="margin: 0 0 10px 0">
-                <input type="text" class="form-control" name="input" placeholder="Input">       
+                <input type="text" class="form-control" id="input" placeholder="Input">       
             </div>
             <div class="input-group" style="margin: 0 0 10px 0">
                 <div class="input-group-prepend">
                     <span class="input-group-text">Result</span>
                 </div>
-                <textarea class="form-control"></textarea>
+                <textarea class="form-control" id="output"></textarea>
             </div>
-            <button type="button" class="btn btn-secondary">ok</button>
+            <button type="button" id="okBtn" class="btn btn-secondary">ok</button>
         </div>
     </div>
     <nav class="navbar fixed-bottom navbar-expand-sm navbar-dark bg-dark">
@@ -34,40 +34,35 @@
                 <li class="nav-item dropup">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="dropdown-l" aria-haspopup="true" aria-expanded="false">Web</a>
                     <div class="dropdown-menu" aria-labelledby="dropdown-l">
-                        <a class="dropdown-item" href="#">XSS Test</a>
+                        <a class="dropdown-item" href="/web/xss/">XSS Test</a>
                     </div>
                 </li>
                 <li class="nav-item dropup">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="dropdown-l" aria-haspopup="true" aria-expanded="false">Crypto</a>
                     <div class="dropdown-menu" aria-labelledby="dropdown-l">
-                        <a class="dropdown-item" href="#">Base Encode</a>
-                        <a class="dropdown-item" href="#">Base Decode</a>
-                    </div>
-                </li>
-                <li class="nav-item dropup">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="dropdown-h" aria-haspopup="true" aria-expanded="false">Reversing</a>
-                    <div class="dropdown-menu" aria-labelledby="dropdown-h">
-                        <a class="dropdown-item" href="#">Crypto Solver</a>
+                        <a class="dropdown-item" href="/crypto/base-encode">Base Encode</a>
+                        <a class="dropdown-item" href="/crypto/base-decode">Base Decode</a>
+                        <a class="dropdown-item" href="/crypto/solver">Crypto Solver</a>
                     </div>
                 </li>
                 <li class="nav-item dropup">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="dropdown-h" aria-haspopup="true" aria-expanded="false">Pwnable</a>
                     <div class="dropdown-menu" aria-labelledby="dropdown-h">
-                        <a class="dropdown-item" href="#">Online Terminal</a>
+                        <a class="dropdown-item" href="/pwnable/terminal">Online Terminal</a>
                     </div>
                 </li>
                 <li class="nav-item dropup">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="dropdown-h" aria-haspopup="true" aria-expanded="false">Hash</a>
                     <div class="dropdown-menu" aria-labelledby="dropdown-h">
-                        <a class="dropdown-item" href="#">Hash Encrypt</a>
-                        <a class="dropdown-item" href="#">Hash Decrypt</a>
+                        <a class="dropdown-item" href="/hash/encrypt">Hash Encrypt</a>
+                        <a class="dropdown-item" href="/hash/decrypt">Hash Decrypt</a>
                     </div>
                 </li>
                 <li class="nav-item dropup">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="dropdown-h" aria-haspopup="true" aria-expanded="false">Forensic</a>
                     <div class="dropdown-menu" aria-labelledby="dropdown-h">
-                        <a class="dropdown-item" href="#">File Info</a>
-                        <a class="dropdown-item" href="#">Find String in File</a>
+                        <a class="dropdown-item" href="/forensic/file-info">File Info</a>
+                        <a class="dropdown-item" href="/forensic/find-flag">Find String in File</a>
                     </div>
                 </li>
             </ul>
@@ -78,6 +73,19 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <!-- <script src="{{ url_for('static', filename='./js/request.js') }}"></script> -->
+    <script>
+        menu = location.pathname;
+        if (menu == '/crypto/base-decode/') {
+            $(document).ready(function() {
+                $("#okBtn").click(function() {
+                    $.get("/decode/base", {enc:$("#input").val()}, function(data) {
+                        $("#output").val(data);
+                    });
+                });
+            });
+        }
+    </script>
 </body>
 
 </html>
