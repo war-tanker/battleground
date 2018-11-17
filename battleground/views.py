@@ -73,7 +73,7 @@ def hash_encrypt():
     if hashfunc == 'md5':
         result = hash.md5encode(plain)  
     elif hashfunc in ['sha1', 'sha256', 'sha384', 'sha512']:
-        rresult = hash.sha_encode(int(hashfunc.replace('sha', '')), plain)
+        result = hash.sha_encode(int(hashfunc.replace('sha', '')), plain)
     else:
         return 'Unknown hash function'            
     
