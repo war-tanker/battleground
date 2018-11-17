@@ -47,13 +47,18 @@
                     <input class="form-check-input" type="radio" name="func" id="s512" value="sha512">
                     <label class="form-check-label" for="s512">sha512</label>
                 </div>
-            {% endif %}
-            {% if title == 'web-post' %}
+            {% elif title == 'web-post' %}
                 <input type="text" class="form-control" id="url" placeholder="URL">
                 <input type="text" class="form-control" id="form-data" placeholder="form" disabled>
                 <input type="text" class="form-control" id="json-data" placeholder="json">
+            {% endif %}
+            {% if title != 'forensic-file-info' %}
+                <input type="text" class="form-control" id="input" placeholder="Input">      
             {% else %}
-                <input type="text" class="form-control" id="input" placeholder="Input">       
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="file">
+                    <label class="custom-file-label" for="file">Choose file</label>
+                </div>
             {% endif %}
             </div>
             <div class="input-group" style="margin: 0 0 10px 0">
