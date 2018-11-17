@@ -68,7 +68,7 @@ def base_decode():
 
 @app.route('/api/encrypt/hash', methods=['POST'])
 def hash_encrypt():
-    hashfunc = request.form.get('hash')
+    hashfunc = request.form.get('func')
     plain = request.form.get('plain')
     if hashfunc == 'md5':
         result = hash.md5encode(plain)  
