@@ -145,10 +145,10 @@
         else if (menu == '/hash/encrypt') {
             $(document).ready(function() {
                 $("#okBtn").click(function() {
-                    var hashVal = $('input[name="base"]:checked').val();
+                    var hashVal = $('input[name="func"]:checked').val();
                     $.post("/api/encrypt/hash",  {
                         plain: $("#input").val(), 
-                        hash: hashVal
+                        func: hashVal
                     }, function(data) {
                         $("#output").val(data);
                     });
