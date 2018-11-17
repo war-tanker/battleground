@@ -98,13 +98,19 @@ def hash_decrypt():
         return 'Not in DB'
     return result.plain
 
-@app.route('/api/post', methods=['POST'])
+@app.route('/api/web/post', methods=['POST'])
 def post_data():
     return web.post(
         url=request.form.get('url'), 
         json=request.form.get('json'), 
         data=request.form.get('data')
     )
+
+@app.route('/api/pwn/terminal', methods=['POST'])
+def terminal_run():
+    command = request.form.get('cmd')
+    print (pwnable.terminal(command))
+    return pwnable.terminal(command)
 
 @app.route('/<cate>/<menu>')
 def show_form(cate=None, menu=None):

@@ -118,7 +118,9 @@
         if (menu == '/crypto/base-decode') {
             $(document).ready(function() {
                 $("#okBtn").click(function() {
-                    $.post("/api/decode/base", {enc:$("#input").val()}, function(data) {
+                    $.post("/api/decode/base", {
+                        enc: $("#input").val()
+                    }, function(data) {
                         $("#output").val(data);
                     });
                 });
@@ -128,7 +130,10 @@
             $(document).ready(function() {
                 $("#okBtn").click(function() {
                     var baseVal = $('input[name="base"]:checked').val();
-                    $.post("/api/encode/base", {plain:$("#input").val(), base:baseVal}, function(data) {
+                    $.post("/api/encode/base", {
+                        plain: $("#input").val(),
+                        base: baseVal
+                    }, function(data) {
                         $("#output").val(data);
                     });
                 });
@@ -138,7 +143,10 @@
             $(document).ready(function() {
                 $("#okBtn").click(function() {
                     var hashVal = $('input[name="base"]:checked').val();
-                    $.post("/api/encrypt/hash",  {plain:$("#input").val(), hash:hashVal}, function(data) {
+                    $.post("/api/encrypt/hash",  {
+                        plain: $("#input").val(), 
+                        hash: hashVal
+                    }, function(data) {
                         $("#output").val(data);
                     });
                 });
@@ -147,8 +155,9 @@
         else if (menu == '/crypto/hash-decrypt') {
             $(document).ready(function() {
                 $("#okBtn").click(function() {
-                    
-                    $.post("/api/decrypt/hash", {enc:$("#input").val()}, function(data) {
+                    $.post("/api/decrypt/hash", {
+                        enc: $("#input").val()
+                    }, function(data) {
                         $("#output").val(data);
                     });
                 });
@@ -158,10 +167,22 @@
             $(document).ready(function() {
                 $("#okBtn").click(function() {
                     var funcVal = $('input[name="func"]:checked').val();
-                    $.post("/api/post", {
+                    $.post("/api/web/post", {
                         url: $("#url").val(),
                         json: $("#json-data").val(),
                         data: $("#form-data").val()
+                    }, function(data) {
+                        $("#output").val(data);
+                    });
+                });
+            });
+        }
+        else if (menu == '/pwnable/terminal') {
+            $(document).ready(function() {
+                $("#okBtn").click(function() {
+                    var command = $("#input").val();
+                    $.post("/api/pwn/terminal", {
+                        cmd: command
                     }, function(data) {
                         $("#output").val(data);
                     });
