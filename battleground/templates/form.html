@@ -26,8 +26,7 @@
                     <input class="form-check-input" type="radio" name="base" id="b64" value="64">
                     <label class="form-check-label" for="b64">base64</label>
                 </div>
-            {% endif %}
-            {% if title=='hash-encrypt' %}
+            {% elif title=='hash-encrypt' %}
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="base" id="m5" value="md5">
                     <label class="form-check-label" for="m5">md5</label>
@@ -51,7 +50,13 @@
             {% endif %}
             </div>
             <div style="margin: 0 0 10px 0">
-                <input type="text" class="form-control" id="input" placeholder="Input">       
+                {% if title == 'web-post' %}
+                    <input type="text" class="form-control" id="url" placeholder="URL">
+                    <input type="text" class="form-control" id="form-data" placeholder="form">
+                    <input type="text" class="form-control" id="json-data" placeholder="json">
+                {% else %}
+                    <input type="text" class="form-control" id="input" placeholder="Input">       
+                {% endif %}
             </div>
             <div class="input-group" style="margin: 0 0 10px 0">
                 <div class="input-group-prepend">
@@ -73,6 +78,7 @@
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="dropdown-l" aria-haspopup="true" aria-expanded="false">Web</a>
                     <div class="dropdown-menu" aria-labelledby="dropdown-l">
                         <a class="dropdown-item" href="/web/xss">XSS Test</a>
+                        <a class="dropdown-item" href="/web/post">Send POST data</a>
                     </div>
                 </li>
                 <li class="nav-item dropup">
@@ -80,6 +86,8 @@
                     <div class="dropdown-menu" aria-labelledby="dropdown-l">
                         <a class="dropdown-item" href="/crypto/base-encode">Base Encode</a>
                         <a class="dropdown-item" href="/crypto/base-decode">Base Decode</a>
+                        <a class="dropdown-item" href="/hash/encrypt">Hash Encrypt</a>
+                        <a class="dropdown-item" href="/hash/decrypt">Hash Decrypt</a>
                         <a class="dropdown-item" href="/crypto/solver">Crypto Solver</a>
                     </div>
                 </li>
@@ -87,13 +95,6 @@
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="dropdown-h" aria-haspopup="true" aria-expanded="false">Pwnable</a>
                     <div class="dropdown-menu" aria-labelledby="dropdown-h">
                         <a class="dropdown-item" href="/pwnable/terminal">Online Terminal</a>
-                    </div>
-                </li>
-                <li class="nav-item dropup">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="dropdown-h" aria-haspopup="true" aria-expanded="false">Hash</a>
-                    <div class="dropdown-menu" aria-labelledby="dropdown-h">
-                        <a class="dropdown-item" href="/hash/encrypt">Hash Encrypt</a>
-                        <a class="dropdown-item" href="/hash/decrypt">Hash Decrypt</a>
                     </div>
                 </li>
                 <li class="nav-item dropup">
@@ -133,7 +134,7 @@
                 });
             });
         }
-        if (menu == '/hash/encrypt') {
+        else if (menu == '/hash/encrypt') {
             $(document).ready(function() {
                 $("#okBtn").click(function() {
                     var hashVal = $('input[name="base"]:checked').val();
@@ -146,8 +147,22 @@
         else if (menu == '/crypto/hash-decrypt') {
             $(document).ready(function() {
                 $("#okBtn").click(function() {
-                    var funcVal = $('input[name="func"]:checked').val();
+                    
                     $.post("/api/decrypt/hash", {enc:$("#input").val()}, function(data) {
+                        $("#output").val(data);
+                    });
+                });
+            });
+        }
+        else if (menu == '/web/post') {
+            $(document).ready(function() {
+                $("#okBtn").click(function() {
+                    var funcVal = $('input[name="func"]:checked').val();
+                    $.post("/api/post", {
+                        url: $("#url").val(),
+                        json: $("#json-data").val(),
+                        data: $("#form-data").val()
+                    }, function(data) {
                         $("#output").val(data);
                     });
                 });
