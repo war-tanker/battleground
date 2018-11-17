@@ -48,15 +48,13 @@
                     <label class="form-check-label" for="s512">sha512</label>
                 </div>
             {% endif %}
-            </div>
-            <div style="margin: 0 0 10px 0">
-                {% if title == 'web-post' %}
-                    <input type="text" class="form-control" id="url" placeholder="URL">
-                    <input type="text" class="form-control" id="form-data" placeholder="form" disabled>
-                    <input type="text" class="form-control" id="json-data" placeholder="json">
-                {% else %}
-                    <input type="text" class="form-control" id="input" placeholder="Input">       
-                {% endif %}
+            {% if title == 'web-post' %}
+                <input type="text" class="form-control" id="url" placeholder="URL">
+                <input type="text" class="form-control" id="form-data" placeholder="form" disabled>
+                <input type="text" class="form-control" id="json-data" placeholder="json">
+            {% else %}
+                <input type="text" class="form-control" id="input" placeholder="Input">       
+            {% endif %}
             </div>
             <div class="input-group" style="margin: 0 0 10px 0">
                 <div class="input-group-prepend">
@@ -118,7 +116,9 @@
         if (menu == '/crypto/base-decode') {
             $(document).ready(function() {
                 $("#okBtn").click(function() {
-                    $.post("/api/decode/base", {enc:$("#input").val()}, function(data) {
+                    $.post("/api/decode/base", {
+                        enc: $("#input").val()
+                    }, function(data) {
                         $("#output").val(data);
                     });
                 });
@@ -128,7 +128,10 @@
             $(document).ready(function() {
                 $("#okBtn").click(function() {
                     var baseVal = $('input[name="base"]:checked').val();
-                    $.post("/api/encode/base", {plain:$("#input").val(), base:baseVal}, function(data) {
+                    $.post("/api/encode/base", {
+                        plain: $("#input").val(),
+                        base: baseVal
+                    }, function(data) {
                         $("#output").val(data);
                     });
                 });
@@ -137,8 +140,11 @@
         else if (menu == '/hash/encrypt') {
             $(document).ready(function() {
                 $("#okBtn").click(function() {
-                    var hashVal = $('input[name="func"]:checked').val();
-                    $.post("/api/encrypt/hash",  {plain:$("#input").val(), func:hashVal}, function(data) {
+                    var hashVal = $('input[name="base"]:checked').val();
+                    $.post("/api/encrypt/hash",  {
+                        plain: $("#input").val(), 
+                        hash: hashVal
+                    }, function(data) {
                         $("#output").val(data);
                     });
                 });
@@ -148,7 +154,9 @@
             $(document).ready(function() {
                 $("#okBtn").click(function() {
                     var hashVal = $('input[name="func"]:checked').val();
-                    $.post("/api/decrypt/hash", {hash:$("#input").val(), func:hashVal}, function(data) {
+                    $.post("/api/decrypt/hash", {
+                        hash:$("#input").val(), func:hashVal
+                    }, function(data) {
                         $("#output").val(data);
                     });
                 });
@@ -162,6 +170,18 @@
                         url: $("#url").val(),
                         json: $("#json-data").val(),
                         data: $("#form-data").val()
+                    }, function(data) {
+                        $("#output").val(data);
+                    });
+                });
+            });
+        }
+        else if (menu == '/pwnable/terminal') {
+            $(document).ready(function() {
+                $("#okBtn").click(function() {
+                    var command = $("#input").val();
+                    $.post("/api/pwn/terminal", {
+                        cmd: command
                     }, function(data) {
                         $("#output").val(data);
                     });

