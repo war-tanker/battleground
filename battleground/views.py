@@ -63,7 +63,7 @@ def base_decode():
     return str((result, base))
 
 @app.route('/api/encrypt/hash', methods=['POST'])
-def hash_encrypt(): # just backend
+def hash_encrypt():
     hashfunc = request.form.get('hash')
     plain = request.form.get('plain')
     if hashfunc == 'md5':
@@ -87,7 +87,7 @@ def hash_encrypt(): # just backend
     return result
 
 @app.route('/api/decrypt/hash', methods=['POST'])
-def hash_decrypt(): # just backend
+def hash_decrypt():
     q_func = request.form.get('func')
     if q_func not in ['sha1', 'sha256', 'sha384', 'sha512' ,'md5']:
         return 'Unknown hash function'
@@ -97,6 +97,14 @@ def hash_decrypt(): # just backend
     if not result:
         return 'Not in DB'
     return result.plain
+
+@app.route('/api/post', methods=['POST'])
+def post_data():
+    return web.post(
+        url=request.form.get('url'), 
+        json=request.form.get('json'), 
+        data=request.form.get('data')
+    )
 
 @app.route('/<cate>/<menu>')
 def show_form(cate=None, menu=None):
