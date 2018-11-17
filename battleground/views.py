@@ -20,7 +20,7 @@ def home():
                 timestamp=label, 
                 type=topic
             ).all()))
-    return render_template('index.html', base_data=base_data)
+    return render_template('main.html', base_data=base_data)
 
 @app.route('/decode/base', methods=['GET', 'POST'])  
 def base_decode():
@@ -39,3 +39,8 @@ def base_decode():
         db.session.commit()
         return str((result, base))
     return render_template('decode/base.html')
+
+@app.route('/<cate>/<menu>/')
+def show_form(cate=None, menu=None):
+    pass
+    
