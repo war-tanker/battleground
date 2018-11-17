@@ -22,25 +22,23 @@ def home():
             ).all()))
     return render_template('main.html', base_data=base_data)
 
-@app.route('/decode/base', methods=['GET', 'POST'])  
+@app.route('/decode/base', methods=['POST'])  
 def base_decode():
-    if request.method == 'POST':
-        try:
-            query = request.form.get('enc')
-            result, base = crypto.base_decode(query, question_base=True)
-        except crypto.UnknownBaseError:
-            return 'Unknown base'
-        newlog = Log(
-            type='base' + str(base),
-            timestamp=datetime.now().strftime('%Y-%m-%d'),
-            json={ 'query': query, 'result': result }
-        )
-        db.session.add(newlog)
-        db.session.commit()
-        return str((result, base))
-    return render_template('decode/base.html')
+    try:
+        query = request.form.get('enc')
+        result, base = crypto.base_decode(query, question_base=True)
+    except crypto.UnknownBaseError:
+        return 'Unknown base'
+    newlog = Log(
+        type='base' + str(base),
+        timestamp=datetime.now().strftime('%Y-%m-%d'),
+        json={ 'query': query, 'result': result }
+    )
+    db.session.add(newlog)
+    db.session.commit()
+    return str((result, base))
 
 @app.route('/<cate>/<menu>/')
 def show_form(cate=None, menu=None):
-    pass
+    return render_template('form.html', title=cate+'-'+menu)
     
