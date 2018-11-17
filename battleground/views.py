@@ -73,7 +73,7 @@ def hash_encrypt(): # just backend
     db.session.add(newlog)
     db.session.commit()
     
-    newhash = Hash(plain=plain, hash=result)
+    newhash = Hash(plain=plain, hash=result, func=hashfunc)
     db.session.add(newhash)
     db.session.commit()
     return result
@@ -81,7 +81,7 @@ def hash_encrypt(): # just backend
 @app.route('/api/decrypt/hash', methods=['POST'])
 def hash_decrypt(): # just backend
     q_func = request.form.get('func')
-    if q_func not in []:
+    if q_func not in ['sha1', 'sha256', 'sha384', 'sha512' ,'md5']:
         return 'Unknown hash function'
     q_hash = request.form.get('hash')
     # query plaintext with func, hash
