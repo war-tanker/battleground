@@ -12,22 +12,44 @@
     <div class="container">
         <div class="jumbotron mt-3">
             <h1>{{ title }}</h1>  
-            {% if title=='crypto-base-encode' %}   
             <div style="margin: 0 0 10px 0">
+            {% if title=='crypto-base-encode' %}   
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="base" value="16">
-                    <label class="form-check-label" for="inlineRadio1">base16</label>
+                    <input class="form-check-input" type="radio" name="base" id="b16" value="16">
+                    <label class="form-check-label" for="b16">base16</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="base" value="32">
-                    <label class="form-check-label" for="inlineRadio2">base32</label>
+                    <input class="form-check-input" type="radio" name="base" id="b32" value="32">
+                    <label class="form-check-label" for="b32">base32</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="base" value="64">
-                    <label class="form-check-label" for="inlineRadio3">base64</label>
+                    <input class="form-check-input" type="radio" name="base" id="b64" value="64">
+                    <label class="form-check-label" for="b64">base64</label>
                 </div>
-            </div>
             {% endif %}
+            {% if title=='hash-encrypt' %}
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="base" id="m5" value="md5">
+                    <label class="form-check-label" for="inlineRadio1">md5</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="base" id="s1" value="sha1">
+                    <label class="form-check-label" for="s1">sha1</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="base" id="s256" value="sha256">
+                    <label class="form-check-label" for="s256">sha256</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="base" id="s384" value="sha384">
+                    <label class="form-check-label" for="s384">sha384</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="base" id="s512" value="sha512">
+                    <label class="form-check-label" for="s512">sha512</label>
+                </div>
+            {% endif %}
+            </div>
             <div style="margin: 0 0 10px 0">
                 <input type="text" class="form-control" id="input" placeholder="Input">       
             </div>
