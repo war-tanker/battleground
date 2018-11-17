@@ -10,4 +10,14 @@ from wartanker import *
 
 @app.route('/')
 def home():
-    pass
+    return redirect(url_for('base_decode'))
+
+@app.route('/decode/base', methods=['GET', 'POST'])  
+def base_decode():
+    if request.method == 'POST':
+        try:
+            result = crypto.base_decode(request.form.get('enc'))
+        except crypto.UnknownBaseError:
+            return 'Unknown base'
+        return result
+    return render_template('decode/base.html')

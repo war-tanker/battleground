@@ -1,3 +1,3 @@
 [submodule "wartanker"]
-	path = battleground/wartanker
+	path = wartanker
 	url = https://github.com/WARTANKER-toolkit/wartanker

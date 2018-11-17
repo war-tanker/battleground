@@ -1,6 +1,6 @@
 from battleground import db
 
-class Log(db.table):
+class Log(db.Model):
     __tablename__ = 'Log'
     id = db.Column(db.Integer, primary_key=True)
     timestamp = db.Column(db.String, nullable=False)
