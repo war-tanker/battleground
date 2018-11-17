@@ -20,13 +20,13 @@ def home():
                 timestamp=label, 
                 type=topic
             ).all()))
-    return render_template('main.html', base_data=base_data)
+    return render_template('index.html', base_data=base_data)
 
 @app.route('/decode/base', methods=['GET', 'POST'])  
 def base_decode():
     if request.method == 'POST':
         try:
-            query = request.form.get('enc')
+            query = request.form.get('input')
             result, base = crypto.base_decode(query, question_base=True)
         except crypto.UnknownBaseError:
             return 'Unknown base'
@@ -38,9 +38,9 @@ def base_decode():
         db.session.add(newlog)
         db.session.commit()
         return str((result, base))
-    return render_template('decode/base.html')
+    return render_template('form.html')
 
-@app.route('encode/base', methods=['GET', 'POST'])
+@app.route('/encode/base', methods=['GET', 'POST'])
 def base_encode():
     if request.method == 'POST':
         base = int(request.form.get('base'))
@@ -58,15 +58,18 @@ def base_encode():
         return result
     return render_template('encode/base.html')
 
-@app.route('encrypt/hash', methods=['GET', 'POST'])
-def hash_encrypt():
+@app.route('/encrypt/hash', methods=['GET', 'POST'])
+def hash_encrypt(): # just backend
     if request.method == 'POST':
         hashfunc = request.form.get('hash')
         plain = request.form.get('plain')
-        if hashfunc not in []:
-            return 'No'
-        else: 
-            result = ''
+        if hashfunc == 'md5':
+            result = crypto.md5encode(plain)
+        elif hashfunc in ['sha1', 'sha256', 'sha384', 'sha512']:
+            rresult = crypto.sha_encode(hashfunc.replace('sha', ''), plain)
+        else:
+            return 'Unknown hash function'            
+        
         newlog = Log(
             type=hashfunc,
             timestamp=datetime.now().strftime('%Y-%m-%d'),
@@ -79,5 +82,18 @@ def hash_encrypt():
         db.session.add(newhash)
         db.session.commit()
         return result
-    return render_template('encrypt/hash')
-    
+    return render_template('encrypt/hash.html')
+
+@app.route('/decrypt/hash', methods=['GET', 'POST'])
+def hash_decrypt(): # just backend
+    if request.method == 'POST':
+        q_func = request.form.get('hash')
+        if q_func not in []:
+            return 'Unknown hash function'
+        q_hash = request.form.get('plain')
+        # query plaintext with func, hash
+        result = Hash.query.filter_by(func=q_func, hash=q_hash).first()
+        if not result:
+            return 'Not in DB'
+        return result.plain
+    return render_template('decrypt/hash.html')

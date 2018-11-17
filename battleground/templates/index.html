@@ -1,51 +1,126 @@
+<!doctype html>
+<html lang="ko">
+
 <head>
-    <script src="{{ url_for('static', filename='./js/Chart.js') }}"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Wartanker</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 </head>
+
 <body>
-    <div class="chart-wrap">
-        <canvas id="chart"></canvas>
+    <div class="container">
+        <div class="jumbotron mt-3">
+            <h1 class="display-4">Wartanker</h1>
+            <p class="lead"></p>
+            <hr>
+            <p>Python3 toolkit for solving CTF problems</p>
+        </div>
+        <div class="chart-wrap">
+            <canvas id="chart"></canvas>
+        </div>
     </div>
-<script>
-    var chartDefault = {
-        type: 'bar',
-        data: {
-            labels: {{ base_data['labels']|safe }},
-            datasets: [{
-                type: 'bar',
-                label: 'base64',
-                data: {{ base_data['base64']|safe }},
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1
-            },
-            {
-                type: 'bar',
-                label: 'base32',
-                data: {{ base_data['base32']|safe }},
-                backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                borderColor: 'rgba(255, 99, 132, 1)',
-                borderWidth: 1
-            },
-            {
-                type: 'bar',
-                label: 'base16',
-                data: {{ base_data['base16']|safe }},
-                backgroundColor: 'rgba(75, 00, 150, 0.2)',
-                borderColor: 'rgba(75, 00, 150, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true,
-                        callback: function(value) {if (value % 1 === 0) {return value;}}
-                    }
+    <nav class="navbar fixed-bottom navbar-expand-sm navbar-dark bg-dark">
+        <a class="navbar-brand" href="/">Menu</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item dropup">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="dropdown-l" aria-haspopup="true" aria-expanded="false">Web</a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown-l">
+                        <a class="dropdown-item" href="#">XSS Test</a>
+                    </div>
+                </li>
+                <li class="nav-item dropup">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="dropdown-l" aria-haspopup="true" aria-expanded="false">Crypto</a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown-l">
+                        <a class="dropdown-item" href="{{ url_for('base_encode') }}">Base Encode</a>
+                        <a class="dropdown-item" href="{{ url_for('base_decode') }}">Base Decode</a>
+                    </div>
+                </li>
+                <li class="nav-item dropup">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="dropdown-h" aria-haspopup="true" aria-expanded="false">Reversing</a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown-h">
+                        <a class="dropdown-item" href="#">Crypto Solver</a>
+                    </div>
+                </li>
+                <li class="nav-item dropup">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="dropdown-h" aria-haspopup="true" aria-expanded="false">Pwnable</a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown-h">
+                        <a class="dropdown-item" href="#">Online Terminal</a>
+                    </div>
+                </li>
+                <li class="nav-item dropup">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="dropdown-h" aria-haspopup="true" aria-expanded="false">Hash</a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown-h">
+                        <a class="dropdown-item" href="#">Hash Encrypt</a>
+                        <a class="dropdown-item" href="#">Hash Decrypt</a>
+                    </div>
+                </li>
+                <li class="nav-item dropup">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="dropdown-h" aria-haspopup="true" aria-expanded="false">Forensic</a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown-h">
+                        <a class="dropdown-item" href="#">File Info</a>
+                        <a class="dropdown-item" href="#">Find String in File</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- JS -->
+    <script src="{{ url_for('static', filename='./js/Chart.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+    <script>
+        var chartDefault = {
+            type: 'bar',
+            data: {
+                labels: {{ base_data['labels']|safe }},
+                datasets: [{
+                    type: 'bar',
+                    label: 'base64',
+                    data: {{ base_data['base64']|safe }},
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                },
+                {
+                    type: 'bar',
+                    label: 'base32',
+                    data: {{ base_data['base32']|safe }},
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                },
+                {
+                    type: 'bar',
+                    label: 'base16',
+                    data: {{ base_data['base16']|safe }},
+                    backgroundColor: 'rgba(75, 00, 150, 0.2)',
+                    borderColor: 'rgba(75, 00, 150, 1)',
+                    borderWidth: 1
                 }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            callback: function(value) {if (value % 1 === 0) {return value;}}
+                        }
+                    }]
+                }
             }
-        }
-    };
-    var chart = new Chart(document.getElementById("chart"), chartDefault);
-</script>
+        };
+        var chart = new Chart(document.getElementById("chart"), chartDefault);
+    </script>
 </body>
+
+</html>
