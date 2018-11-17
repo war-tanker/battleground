@@ -127,7 +127,17 @@
             $(document).ready(function() {
                 $("#okBtn").click(function() {
                     var baseVal = $('input[name="base"]:checked').val();
-                    $.post("/api/encode/base",  {plain:$("#input").val(), base:baseVal}, function(data) {
+                    $.post("/api/encode/base", {plain:$("#input").val(), base:baseVal}, function(data) {
+                        $("#output").val(data);
+                    });
+                });
+            });
+        }
+        if (menu == '/hash/encrypt') {
+            $(document).ready(function() {
+                $("#okBtn").click(function() {
+                    var hashVal = $('input[name="base"]:checked').val();
+                    $.post("/api/encode/base",  {plain:$("#input").val(), hash:hashVal}, function(data) {
                         $("#output").val(data);
                     });
                 });
