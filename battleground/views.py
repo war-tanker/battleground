@@ -39,3 +39,45 @@ def base_decode():
         db.session.commit()
         return str((result, base))
     return render_template('decode/base.html')
+
+@app.route('encode/base', methods=['GET', 'POST'])
+def base_encode():
+    if request.method == 'POST':
+        base = int(request.form.get('base'))
+        plain = request.form.get('plain')
+        result = crypto.base_encode(base, plain)
+
+        newlog = Log(
+            type='base' + str(base),
+            timestamp=datetime.now().strftime('%Y-%m-%d'),
+            json={ 'query': plain, 'result': result }
+        )
+        db.session.add(newlog)
+        db.session.commit()
+
+        return result
+    return render_template('encode/base.html')
+
+@app.route('encrypt/hash', methods=['GET', 'POST'])
+def hash_encrypt():
+    if request.method == 'POST':
+        hashfunc = request.form.get('hash')
+        plain = request.form.get('plain')
+        if hashfunc not in []:
+            return 'No'
+        else: 
+            result = ''
+        newlog = Log(
+            type=hashfunc,
+            timestamp=datetime.now().strftime('%Y-%m-%d'),
+            json={ 'query': plain, 'result': result }
+        )
+        db.session.add(newlog)
+        db.session.commit()
+        
+        newhash = Hash(plain=plain, hash=result)
+        db.session.add(newhash)
+        db.session.commit()
+        return result
+    return render_template('encrypt/hash')
+    
