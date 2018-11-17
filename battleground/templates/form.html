@@ -95,7 +95,17 @@
         if (menu == '/crypto/base-decode') {
             $(document).ready(function() {
                 $("#okBtn").click(function() {
-                    $.get("/decode/base", {enc:$("#input").val()}, function(data) {
+                    $.post("/api/decode/base", {enc:$("#input").val()}, function(data) {
+                        $("#output").val(data);
+                    });
+                });
+            });
+        }
+        if (menu == '/crypto/base-encode') {
+            $(document).ready(function() {
+                $("#okBtn").click(function() {
+                    var baseVal = $('input[name="base"]:checked').val();
+                    $.post("/api/encode/base",  {plain:$("#input").val(), base:baseVal}, function(data) {
                         $("#output").val(data);
                     });
                 });
