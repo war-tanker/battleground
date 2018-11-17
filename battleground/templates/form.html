@@ -26,25 +26,25 @@
                     <input class="form-check-input" type="radio" name="base" id="b64" value="64">
                     <label class="form-check-label" for="b64">base64</label>
                 </div>
-            {% elif title=='hash-encrypt' %}
+            {% elif title in ['hash-encrypt', 'hash-decrypt'] %}
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="base" id="m5" value="md5">
+                    <input class="form-check-input" type="radio" name="func" id="m5" value="md5">
                     <label class="form-check-label" for="m5">md5</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="base" id="s1" value="sha1">
+                    <input class="form-check-input" type="radio" name="func" id="s1" value="sha1">
                     <label class="form-check-label" for="s1">sha1</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="base" id="s256" value="sha256">
+                    <input class="form-check-input" type="radio" name="func" id="s256" value="sha256">
                     <label class="form-check-label" for="s256">sha256</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="base" id="s384" value="sha384">
+                    <input class="form-check-input" type="radio" name="func" id="s384" value="sha384">
                     <label class="form-check-label" for="s384">sha384</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="base" id="s512" value="sha512">
+                    <input class="form-check-input" type="radio" name="func" id="s512" value="sha512">
                     <label class="form-check-label" for="s512">sha512</label>
                 </div>
             {% endif %}
@@ -137,18 +137,18 @@
         else if (menu == '/hash/encrypt') {
             $(document).ready(function() {
                 $("#okBtn").click(function() {
-                    var hashVal = $('input[name="base"]:checked').val();
-                    $.post("/api/encrypt/hash",  {plain:$("#input").val(), hash:hashVal}, function(data) {
+                    var hashVal = $('input[name="func"]:checked').val();
+                    $.post("/api/encrypt/hash",  {plain:$("#input").val(), func:hashVal}, function(data) {
                         $("#output").val(data);
                     });
                 });
             });
         }
-        else if (menu == '/crypto/hash-decrypt') {
+        else if (menu == '/hash/decrypt') {
             $(document).ready(function() {
                 $("#okBtn").click(function() {
-                    
-                    $.post("/api/decrypt/hash", {enc:$("#input").val()}, function(data) {
+                    var hashVal = $('input[name="func"]:checked').val();
+                    $.post("/api/decrypt/hash", {hash:$("#input").val(), func:hashVal}, function(data) {
                         $("#output").val(data);
                     });
                 });
