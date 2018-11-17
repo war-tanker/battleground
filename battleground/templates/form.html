@@ -123,7 +123,7 @@
                 });
             });
         }
-        if (menu == '/crypto/base-encode') {
+        else if (menu == '/crypto/base-encode') {
             $(document).ready(function() {
                 $("#okBtn").click(function() {
                     var baseVal = $('input[name="base"]:checked').val();
@@ -138,6 +138,16 @@
                 $("#okBtn").click(function() {
                     var hashVal = $('input[name="base"]:checked').val();
                     $.post("/api/encrypt/hash",  {plain:$("#input").val(), hash:hashVal}, function(data) {
+                        $("#output").val(data);
+                    });
+                });
+            });
+        }
+        else if (menu == '/crypto/hash-decrypt') {
+            $(document).ready(function() {
+                $("#okBtn").click(function() {
+                    var funcVal = $('input[name="func"]:checked').val();
+                    $.post("/api/decrypt/hash", {enc:$("#input").val()}, function(data) {
                         $("#output").val(data);
                     });
                 });
