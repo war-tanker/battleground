@@ -25,8 +25,11 @@ def home():
 
 @app.route('/api/encode/base', methods=['POST'])
 def base_encode():
-    base = int(request.form.get('base'))
-    plain = request.form.get('plain')
+    try:
+        base = int(request.form.get('base'))
+        plain = request.form.get('plain')
+    except:
+        return "error"
     result = crypto.base_encode(base, plain)
 
     newlog = Log(
@@ -43,6 +46,7 @@ def base_encode():
 def base_decode():
     try:
         query = request.form.get('enc')
+        print(query)
         result, base = crypto.base_decode(query, question_base=True)
     except crypto.UnknownBaseError:
         newlog = Log(
@@ -103,7 +107,7 @@ def post_data():
     return web.post(
         url=request.form.get('url'), 
         json=request.form.get('json'), 
-        data=request.form.get('data')
+        form=request.form.get('data')
     )
 
 @app.route('/api/pwn/terminal', methods=['POST'])
