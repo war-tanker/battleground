@@ -48,15 +48,13 @@
                     <label class="form-check-label" for="s512">sha512</label>
                 </div>
             {% endif %}
-            </div>
-            <div style="margin: 0 0 10px 0">
-                {% if title == 'web-post' %}
-                    <input type="text" class="form-control" id="url" placeholder="URL">
-                    <input type="text" class="form-control" id="form-data" placeholder="form" disabled>
-                    <input type="text" class="form-control" id="json-data" placeholder="json">
-                {% else %}
-                    <input type="text" class="form-control" id="input" placeholder="Input">       
-                {% endif %}
+            {% if title == 'web-post' %}
+                <input type="text" class="form-control" id="url" placeholder="URL">
+                <input type="text" class="form-control" id="form-data" placeholder="form" disabled>
+                <input type="text" class="form-control" id="json-data" placeholder="json">
+            {% else %}
+                <input type="text" class="form-control" id="input" placeholder="Input">       
+            {% endif %}
             </div>
             <div class="input-group" style="margin: 0 0 10px 0">
                 <div class="input-group-prepend">
