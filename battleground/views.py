@@ -90,6 +90,6 @@ def hash_decrypt(): # just backend
         return 'Not in DB'
     return result.plain
 
-@app.route('/<cate>/<menu>')
+@app.route('/<cate>/<menu>/')
 def show_form(cate=None, menu=None):
     return render_template('form.html', title=cate+'-'+menu)

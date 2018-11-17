@@ -92,7 +92,7 @@
     <!-- <script src="{{ url_for('static', filename='./js/request.js') }}"></script> -->
     <script>
         menu = location.pathname;
-        if (menu == '/crypto/base-decode') {
+        if (menu == '/crypto/base-decode/') {
             $(document).ready(function() {
                 $("#okBtn").click(function() {
                     $.post("/api/decode/base", {enc:$("#input").val()}, function(data) {
