@@ -12,6 +12,7 @@ from datetime import date, datetime, timedelta
 @app.route('/')
 def home():
     today = date.today()
+
     # base data 
     base_data = {'labels': [], 'base16': [], 'base32': [], 'base64': [], 'base-error': []}
     base_data['labels'] = list(reversed([(today - timedelta(days=i)).strftime('%Y-%m-%d') for i in range(0, 7)]))
@@ -21,7 +22,12 @@ def home():
                 timestamp=label, 
                 type=topic
             ).all()))
-    return render_template('index.html', base_data=base_data)
+
+    # hash data
+    hash_data = {'labels': ['md5', 'sha1', 'sha256', 'sha384', 'sha512'], 'data': []}
+    for label in hash_data['labels']:
+        hash_data['data'].append(len(Hash.query.filter_by(func=label).all()))
+    return render_template('index.html', base_data=base_data, hash_data=hash_data)
 
 @app.route('/api/encode/base', methods=['POST'])
 def base_encode():

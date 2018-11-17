@@ -9,6 +9,9 @@
 </head>
 
 <body>
+    <style>
+        .chart-wrap{flex: 50%;}
+    </style>
     <div class="container">
         <div class="jumbotron mt-3">
             <h1 class="display-4">Wartanker</h1>
@@ -16,8 +19,15 @@
             <hr>
             <p>Python3 toolkit for solving CTF problems</p>
         </div>
-        <div class="chart-wrap">
-            <canvas id="chart"></canvas>
+        <div class="row">
+            <div class="chart-wrap">
+                <h5>Base enc/dec</h5>
+                <canvas id="chart-base"></canvas>
+            </div>
+            <div class="chart-wrap">
+                <h5>Hash DB</h5>
+                <canvas id="chart-hash"></canvas>
+            </div>
         </div>
     </div>
     <nav class="navbar fixed-bottom navbar-expand-sm navbar-dark bg-dark">
@@ -117,7 +127,23 @@
                 }
             }
         };
-        var chart = new Chart(document.getElementById("chart"), chartDefault);
+        var chart = new Chart(document.getElementById("chart-base"), chartDefault);
+        var hashDoughnutChart = new Chart(document.getElementById("chart-hash"), {
+            type: 'doughnut',
+            data: {
+                datasets: [{
+                    data: {{ hash_data['data']|safe }},
+                    backgroundColor: ['rgb(2, 84, 125)', 'rgb(2, 132, 168)', 'rgb(2, 190, 196)', 'rgb(169, 232, 220)', 'rgb(225, 247, 231)']
+                }],
+            
+                // These labels appear in the legend and in the tooltips when hovering different arcs
+                labels: {{ hash_data['labels']|safe }}
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
     </script>
 </body>
 
