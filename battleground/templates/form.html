@@ -13,20 +13,20 @@
         <div class="jumbotron mt-3">
             <h1>{{ title }}</h1>  
             {% if title=='crypto-base-encode' %}   
-            <div style="margin: 0 0 10px 0">
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="base" value="16">
-                    <label class="form-check-label" for="inlineRadio1">base16</label>
+                <div style="margin: 0 0 10px 0">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="base" value="16">
+                        <label class="form-check-label" for="inlineRadio1">base16</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="base" value="32">
+                        <label class="form-check-label" for="inlineRadio2">base32</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="base" value="64">
+                        <label class="form-check-label" for="inlineRadio3">base64</label>
+                    </div>
                 </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="base" value="32">
-                    <label class="form-check-label" for="inlineRadio2">base32</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="base" value="64">
-                    <label class="form-check-label" for="inlineRadio3">base64</label>
-                </div>
-            </div>
             {% endif %}
             <div style="margin: 0 0 10px 0">
                 <input type="text" class="form-control" id="input" placeholder="Input">       
@@ -101,11 +101,21 @@
                 });
             });
         }
-        if (menu == '/crypto/base-encode') {
+        else if (menu == '/crypto/base-encode') {
             $(document).ready(function() {
                 $("#okBtn").click(function() {
                     var baseVal = $('input[name="base"]:checked').val();
                     $.post("/api/encode/base",  {plain:$("#input").val(), base:baseVal}, function(data) {
+                        $("#output").val(data);
+                    });
+                });
+            });
+        }
+        else if (menu == '/crypto/hash-decrypt') {
+            $(document).ready(function() {
+                $("#okBtn").click(function() {
+                    var funcVal = $('input[name="func"]:checked').val();
+                    $.post("/api/decrypt/hash", {enc:$("#input").val()}, function(data) {
                         $("#output").val(data);
                     });
                 });

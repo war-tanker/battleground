@@ -12,10 +12,11 @@ from datetime import date, datetime, timedelta
 @app.route('/')
 def home():
     today = date.today()
-    base_data = {'labels': [], 'base16': [], 'base32': [], 'base64': []}
+    # base data 
+    base_data = {'labels': [], 'base16': [], 'base32': [], 'base64': [], 'base-error': []}
     base_data['labels'] = list(reversed([(today - timedelta(days=i)).strftime('%Y-%m-%d') for i in range(0, 7)]))
     for label in base_data['labels']:
-        for topic in ['base16', 'base32', 'base64']:
+        for topic in ['base16', 'base32', 'base64', 'base-error']:
             base_data[topic].append(len(Log.query.filter_by(
                 timestamp=label, 
                 type=topic
@@ -44,6 +45,13 @@ def base_decode():
         query = request.form.get('enc')
         result, base = crypto.base_decode(query, question_base=True)
     except crypto.UnknownBaseError:
+        newlog = Log(
+            type='base-error',
+            timestamp=datetime.now().strftime('%Y-%m-%d'),
+            json={ 'query': query }
+        )
+        db.session.add(newlog)
+        db.session.commit()
         return 'Unknown base'
     newlog = Log(
         type='base' + str(base),
