@@ -59,9 +59,9 @@ def hash_encrypt(): # just backend
     hashfunc = request.form.get('hash')
     plain = request.form.get('plain')
     if hashfunc == 'md5':
-        result = crypto.md5encode(plain)
+        result = hash.md5encode(plain)  
     elif hashfunc in ['sha1', 'sha256', 'sha384', 'sha512']:
-        rresult = crypto.sha_encode(hashfunc.replace('sha', ''), plain)
+        rresult = hash.sha_encode(int(hashfunc.replace('sha', '')), plain)
     else:
         return 'Unknown hash function'            
     
