@@ -11,7 +11,23 @@
 <body>
     <div class="container">
         <div class="jumbotron mt-3">
-            <h1>{{ title }}</h1>     
+            <h1>{{ title }}</h1>  
+            {% if title=='crypto-base-encode' %}   
+            <div style="margin: 0 0 10px 0">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="base" value="16">
+                    <label class="form-check-label" for="inlineRadio1">base16</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="base" value="32">
+                    <label class="form-check-label" for="inlineRadio2">base32</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="base" value="64">
+                    <label class="form-check-label" for="inlineRadio3">base64</label>
+                </div>
+            </div>
+            {% endif %}
             <div style="margin: 0 0 10px 0">
                 <input type="text" class="form-control" id="input" placeholder="Input">       
             </div>
@@ -34,7 +50,7 @@
                 <li class="nav-item dropup">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="dropdown-l" aria-haspopup="true" aria-expanded="false">Web</a>
                     <div class="dropdown-menu" aria-labelledby="dropdown-l">
-                        <a class="dropdown-item" href="/web/xss/">XSS Test</a>
+                        <a class="dropdown-item" href="/web/xss">XSS Test</a>
                     </div>
                 </li>
                 <li class="nav-item dropup">
@@ -76,7 +92,7 @@
     <!-- <script src="{{ url_for('static', filename='./js/request.js') }}"></script> -->
     <script>
         menu = location.pathname;
-        if (menu == '/crypto/base-decode/') {
+        if (menu == '/crypto/base-decode') {
             $(document).ready(function() {
                 $("#okBtn").click(function() {
                     $.get("/decode/base", {enc:$("#input").val()}, function(data) {
