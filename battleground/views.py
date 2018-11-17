@@ -16,8 +16,8 @@ def home():
 def base_decode():
     if request.method == 'POST':
         try:
-            result = crypto.base_decode(request.form.get('enc'))
+            result, base = crypto.base_decode(request.form.get('enc'), question_base=True)
         except crypto.UnknownBaseError:
             return 'Unknown base'
-        return result
+        return str((result, base))
     return render_template('decode/base.html')
