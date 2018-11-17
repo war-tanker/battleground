@@ -38,7 +38,7 @@ def base_decode():
     db.session.commit()
     return str((result, base))
 
-@app.route('/<cate>/<menu>/')
+@app.route('/<cate>/<menu>')
 def show_form(cate=None, menu=None):
     return render_template('form.html', title=cate+'-'+menu)
     
