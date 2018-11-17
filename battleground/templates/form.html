@@ -158,7 +158,7 @@
             $(document).ready(function() {
                 $("#okBtn").click(function() {
                     var funcVal = $('input[name="func"]:checked').val();
-                    $.post("/api/post", {
+                    $.post("/api/web/post", {
                         url: $("#url").val(),
                         json: $("#json-data").val(),
                         data: $("#form-data").val()
