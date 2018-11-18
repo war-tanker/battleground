@@ -17,9 +17,6 @@
         .fab {
             color: #000000;
         }
-        #chart-container {
-
-        }
     </style>
     <div class="container">
         <div class="jumbotron mt-3">
@@ -28,9 +25,9 @@
             <hr>
             <p>Python3 toolkit for solving CTF problems&nbsp;<a href="https://github.com/WARTANKER-tk/wartanker-web"><i class="fab fa-github"></i></a></p>
         </div>
-        <div class="container row">
+        <div class="container row" style="margin: 0 0 70px 0;">
             <div class="chart-wrap">
-                <h5><i class="fas fa-chart-bar"></i>&nbsp;Base enc/dec</h5>
+                <h5><i class="fas fa-chart-bar"></i>&nbsp;Base Enc/Dec</h5>
                 <canvas id="chart-base"></canvas>
             </div>
             <div class="chart-wrap">
@@ -42,8 +39,8 @@
     <nav class="navbar fixed-bottom navbar-expand-sm navbar-dark bg-dark">
         <a class="navbar-brand" href="/">Menu</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+            <span class="navbar-toggler-icon"></span>
+        </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item dropup">
@@ -79,7 +76,7 @@
             </ul>
         </div>
     </nav>
-
+    
     <!-- JS -->
     <script src="{{ url_for('static', filename='./js/Chart.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
