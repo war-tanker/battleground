@@ -55,10 +55,17 @@
             {% if title != 'forensic-file-info' %}
                 <input type="text" class="form-control" id="input" placeholder="Input">      
             {% else %}
-                <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="file">
-                    <label class="custom-file-label" for="file">Choose file</label>
-                </div>
+                <form method="POST" action="/api/forensic/file" enctype="multipart/form-data">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <input type="submit" class="btn btn-outline-secondary" type="button" value="Upload">
+                        </div>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" name="file">
+                            <label class="custom-file-label" for="input">Choose file</label>
+                        </div>
+                    </div>
+                </form>
             {% endif %}
             </div>
             <div class="input-group" style="margin: 0 0 10px 0">
@@ -67,7 +74,9 @@
                 </div>
                 <textarea class="form-control" id="output"></textarea>
             </div>
-            <button type="button" id="okBtn" class="btn btn-secondary">ok</button>
+            {% if title != 'forensic-file-info' %}
+                <button type="button" id="okBtn" class="btn btn-secondary">ok</button>
+            {% endif %}
         </div>
     </div>
     <nav class="navbar fixed-bottom navbar-expand-sm navbar-dark bg-dark">
