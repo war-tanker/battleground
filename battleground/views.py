@@ -127,7 +127,7 @@ def terminal_run():
 @app.route('/api/forensic/fileinfo', methods=['POST'])
 def get_fileinfo():
     file = request.files['file']
-    file_p = os.path.join('/users/uhmseohun/wartanker-files', secure_filename(str(int(time.time()))))
+    file_p = os.path.join('/home/wartanker-files', secure_filename(str(int(time.time()))))
     file.save(file_p)
     file_i = pwnable.terminal('file ' + file_p)
     return file_i.replace(file_p + ': ', '')
@@ -136,7 +136,7 @@ def get_fileinfo():
 def find_string():
     regex = request.form.get('regex')
     file = request.files['file']
-    file_p = os.path.join('/users/uhmseohun/wartanker-files', secure_filename(str(int(time.time()))))
+    file_p = os.path.join('/home/wartanker-files', secure_filename(str(int(time.time()))))
     file.save(file_p)
     return str(forensic.find_flag(regex, file_p))
 
