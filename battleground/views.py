@@ -127,7 +127,7 @@ def terminal_run():
 @app.route('/api/forensic/file', methods=['POST'])
 def get_fileinfo():
     file = request.files['file']
-    file_p = os.path.join('/home/wartanker-files', secure_filename(str(int(time.time()))))
+    file_p = os.path.join('/users/uhmseohun/wartanker-files', secure_filename(str(int(time.time()))))
     file.save(file_p)
     file_i = pwnable.terminal('file ' + file_p)
     return file_i.replace(file_p + ': ', '')

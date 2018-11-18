@@ -55,14 +55,11 @@
             {% if title != 'forensic-file-info' %}
                 <input type="text" class="form-control" id="input" placeholder="Input">      
             {% else %}
-                <form method="POST" action="/api/forensic/file" enctype="multipart/form-data">
+                <form method="POST" name="fileform" action="/api/forensic/file" enctype="multipart/form-data">
                     <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <input type="submit" class="btn btn-outline-secondary" type="button" value="Upload">
-                        </div>
                         <div class="custom-file">
-                            <input type="file" class="custom-file-input" name="file">
-                            <label class="custom-file-label" for="input">Choose file</label>
+                            <input type="file" name="file" class="custom-file-input">
+                            <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
                         </div>
                     </div>
                 </form>
@@ -74,9 +71,7 @@
                 </div>
                 <textarea class="form-control" id="output"></textarea>
             </div>
-            {% if title != 'forensic-file-info' %}
-                <button type="button" id="okBtn" class="btn btn-secondary">ok</button>
-            {% endif %}
+            <button type="button" id="okBtn" class="btn btn-secondary">ok</button>
         </div>
     </div>
     <nav class="navbar fixed-bottom navbar-expand-sm navbar-dark bg-dark">
@@ -124,7 +119,6 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-    <!-- <script src="{{ url_for('static', filename='./js/request.js') }}"></script> -->
     <script>
         menu = location.pathname;
         if (menu == '/crypto/base-decode') {
@@ -198,6 +192,24 @@
                         cmd: command
                     }, function(data) {
                         $("#output").val(data);
+                    });
+                });
+            });
+        }
+        else if (menu == '/forensic/file-info') {
+            $(document).ready(function() {
+                $("#okBtn").click(function() {
+                    var fDat = new FormData;
+                    fDat.append("file", $("input[name=file]")[0].files[0]);
+                    $.ajax({
+                        url: '/api/forensic/file',
+                        data: fDat,
+                        processData: false,
+                        contentType: false,
+                        type: 'POST',
+                        success: function(data) {
+                            $("#output").val(data);
+                        }
                     });
                 });
             });
